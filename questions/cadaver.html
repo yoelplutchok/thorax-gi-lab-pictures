@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Cadaver identification questions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+
+/* ---- Lab identification pages: picture-type tabs, covered labels, region summary ---- */
+.home{display:inline-block;margin-top:20px;font-family:var(--sans);font-size:.84rem;font-weight:600;color:var(--accent);text-decoration:none}
+.home:hover{text-decoration:underline}
+.ttabs{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.ttabs a{font-family:var(--sans);font-size:.84rem;font-weight:600;text-decoration:none;color:var(--ink);border:1px solid var(--rule-2);border-radius:999px;padding:5px 13px;white-space:nowrap}
+.ttabs a span{font-weight:400;color:var(--ink-3);margin-left:4px;font-variant-numeric:tabular-nums}
+.ttabs a:hover{border-color:var(--accent);color:var(--accent)}
+.ttabs a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.ttabs a[aria-current="page"] span{color:var(--paper);opacity:.8}
+.qimg{max-height:min(600px,78vh)}
+.pimg .cv,.lbov .cv{position:absolute;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#E6ECEF;border:1px solid #8E9DA6;border-radius:3px;color:#3E4B54;font-family:var(--sans);font-weight:700;font-size:clamp(9px,1.05vw,13px);line-height:1;pointer-events:none;white-space:nowrap}
+.pimg .cv.tg,.lbov .cv.tg{background:#F7D154;border:2px solid #8A5A00;color:#3B2A00;box-shadow:0 0 0 2px rgba(255,255,255,.85);font-size:clamp(10px,1.3vw,16px)}
+.pimg.ans .cv.tg,.lbov.ans .cv.tg{background:transparent;border:3px solid #1E9E55;color:transparent;box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+.pimg.all .cv,.lbov.all .cv{background:transparent;border-color:rgba(30,158,85,.55);color:transparent}
+.pimg .ovb,.lbov .ovb{position:absolute;border:3px solid #e0262f;border-radius:4px;background:rgba(255,230,0,.22);box-shadow:0 0 0 2px rgba(255,255,255,.8);pointer-events:none}
+#lb2 .lbw{position:relative;display:inline-block;line-height:0}
+#lb2 .lbw img{max-width:calc(100vw - 24px);max-height:calc(100vh - 78px)}
+#lb2 .lbov{position:absolute;inset:0;pointer-events:none}
+#lb2.zoomed .lbw{display:block;width:max-content;margin:auto}
+#lb2.zoomed .lbw img{max-width:none;max-height:none}
+.lsum{padding-bottom:10px}
+.lsum>ol{list-style:none;padding:0;margin:0}
+.lsum>ol>li{margin:0;padding:6px 0;border-top:1px dotted var(--rule-2);font-weight:400}
+.lsum>ol>li:first-child{border-top:0}
+.lsum>ol>li>a{font-weight:700}
+.lsum .ks{display:block;color:var(--ink-2);font-size:.84rem;line-height:1.45;margin-top:1px}
+.lsum .lede2{display:block;color:var(--ink-2);margin:0 0 6px;font-size:.86rem}
+/* Layout (CP2 question-page design): masthead with tally + controls, lecture TOC, sticky lecture headers, groups of similar questions */
+:root{
+  --paper:#FBFCFD;--panel:#F2F5F7;--grp:#EEF3F2;--ink:#141A1F;--ink-2:#48555F;--ink-3:#6E7C86;--rule:#DBE2E7;--rule-2:#C3CDD4;
+  --accent:#1B5E5A;--accent-soft:#E4EFEC;--amber:#8A5A00;--amber-soft:#FBF1DC;--red:#9B2C2C;--red-soft:#FBE9E7;
+  --green:#22663A;--green-soft:#E3F2E7;--gold:#B8860B;--shadow:rgba(0,0,0,.18);--veil:rgba(10,14,16,.86);
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;--sans:"Source Sans 3",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#101518;--panel:#182024;--grp:#14211F;--ink:#E8EDEF;--ink-2:#A9B7BE;--ink-3:#7E8F98;--rule:#28343A;--rule-2:#3A4950;
+  --accent:#63C9BC;--accent-soft:#16302E;--amber:#F0C46B;--amber-soft:#2E2412;--red:#F19A93;--red-soft:#341A19;
+  --green:#86D29C;--green-soft:#15291C;--gold:#E8C35A;--shadow:rgba(0,0,0,.5);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#101518;--panel:#182024;--grp:#14211F;--ink:#E8EDEF;--ink-2:#A9B7BE;--ink-3:#7E8F98;--rule:#28343A;--rule-2:#3A4950;
+  --accent:#63C9BC;--accent-soft:#16302E;--amber:#F0C46B;--amber-soft:#2E2412;--red:#F19A93;--red-soft:#341A19;
+  --green:#86D29C;--green-soft:#15291C;--gold:#E8C35A;--shadow:rgba(0,0,0,.5);color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:16px;line-height:1.55;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 80px}
+.mast{padding-block:48px 24px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(1.9rem,5.5vw,2.7rem);line-height:1.15;margin:.35em 0 .4em;text-wrap:balance}
+.lede{font-size:1.04rem;color:var(--ink-2);margin:0 0 20px;max-width:40rem}
+.tally{display:flex;flex-wrap:wrap;gap:4px 22px;font-family:var(--sans);font-size:.82rem;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.tally b{font-weight:700;color:var(--ink);font-size:1rem}
+.score b{color:var(--accent)}
+.controls{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font-family:var(--sans);font-size:.84rem;font-weight:600;background:none;color:var(--ink);border:1px solid var(--rule-2);border-radius:6px;padding:7px 14px;cursor:pointer}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn:focus-visible,.opt:focus-visible,.star:focus-visible,.again:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.controls input{font-family:var(--sans);font-size:.88rem;border:1px solid var(--rule-2);background:var(--panel);color:var(--ink);border-radius:6px;padding:7px 10px;flex:1 1 200px;min-width:0}
+.floatreset{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 16px);z-index:20;background:var(--paper);box-shadow:0 2px 8px var(--shadow)}
+.toc{padding:22px 0 8px;border-bottom:1px solid var(--rule)}
+.toc h3{font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+.toc ol{list-style:none;margin:0;padding:0;columns:2 300px;column-gap:28px}
+.toc li{break-inside:avoid;padding:4px 0;display:flex;gap:8px;align-items:baseline;justify-content:space-between;border-bottom:1px dotted var(--rule)}
+.toc a{text-decoration:none;color:var(--ink)}
+.toc a:hover{color:var(--accent)}
+.toc .id,.sechead .id{font-family:var(--sans);font-size:.74rem;font-weight:700;color:var(--accent);margin-right:4px}
+.toc .n{font-family:var(--sans);font-size:.8rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
+section.sec{padding-top:26px}
+.sechead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:6px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);z-index:2}
+.sechead h2{font-family:var(--serif);font-weight:600;font-size:1.32rem;margin:0;text-wrap:balance}
+.sechead .n{font-family:var(--sans);font-size:.8rem;color:var(--ink-3);white-space:nowrap}
+.grp{background:var(--grp);border-radius:8px;padding:2px 14px;margin:12px 0}
+.ghead{font-family:var(--sans);font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);padding:10px 0 0}
+.ghead span{text-transform:none;letter-spacing:0;font-weight:600;color:var(--ink-2);font-size:.84rem}
+.grp .q:last-child{border-bottom:0}
+.q{padding:16px 0 14px;border-bottom:1px solid var(--rule)}
+.q header{display:flex;gap:8px;align-items:center;margin-bottom:4px;flex-wrap:wrap}
+.qn{font-family:var(--sans);font-weight:700;font-size:.82rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.badge{font-family:var(--sans);font-size:.72rem;color:var(--ink-2);background:var(--panel);border:1px solid var(--rule);border-radius:999px;padding:0 8px;white-space:nowrap}
+.star{margin-left:auto;font-family:var(--sans);font-size:1.05rem;line-height:1;background:none;border:1px solid transparent;border-radius:999px;padding:2px 7px;color:var(--ink-3);cursor:pointer}
+.star:hover{border-color:var(--rule-2);color:var(--gold)}
+.star[aria-pressed="true"]{color:var(--gold)}
+.stem{white-space:pre-wrap;overflow-wrap:anywhere}
+.qimg{display:block;max-width:100%;max-height:440px;width:auto;height:auto;margin:10px 0;border:1px solid var(--rule);border-radius:4px}
+.inote{font-family:var(--sans);font-size:.84rem;color:var(--ink-3);font-style:italic;margin-top:6px}
+.opts{display:flex;flex-direction:column;gap:5px;margin:10px 0 0}
+.opt{text-align:left;font-family:var(--serif);font-size:1rem;color:var(--ink);background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:7px 12px;cursor:pointer;overflow-wrap:anywhere}
+.opt:hover{border-color:var(--accent)}
+.opt[disabled]{cursor:default}
+.opt.right{background:var(--green-soft);border-color:var(--green)}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.opt .mk{font-family:var(--sans);font-size:.78rem;font-weight:700;margin-left:8px}
+.olist{margin:10px 0 0;padding-left:1.2em}
+.showans{margin-top:10px}
+.verdict{margin-top:10px;font-family:var(--sans);font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:10px}
+.verdict.ok{color:var(--accent)}
+.verdict.no{color:var(--red)}
+.again{font-family:var(--sans);font-size:.76rem;font-weight:600;background:none;border:1px solid var(--rule-2);border-radius:999px;padding:1px 10px;cursor:pointer;color:var(--ink-2)}
+.again:hover{border-color:var(--accent);color:var(--accent)}
+.ans{margin-top:10px;padding:8px 12px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;overflow-wrap:anywhere}
+.ans .lab{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:block}
+.fixbox{margin-top:8px;padding:8px 12px;background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:0 4px 4px 0;font-size:.95rem}
+.fixbox .lab{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);display:block}
+.why{margin-top:8px;padding:6px 12px;border-left:3px solid var(--rule-2);font-size:.97rem;overflow-wrap:anywhere}
+.why .lab{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);display:block}
+.why b{font-weight:600;color:var(--accent)}
+.slides,.src{margin-top:10px;font-family:var(--sans)}
+.slides>summary,.src>summary{font-weight:600;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);cursor:pointer;width:max-content}
+.slides>summary:hover,.src>summary:hover{color:var(--accent)}
+.slides figure{margin:8px 0 0}
+.slides img{display:block;width:100%;max-width:760px;height:auto;border:1px solid var(--rule-2);border-radius:4px;background:#fff;cursor:zoom-in}
+.slides figcaption{margin-top:3px;font-size:.8rem;color:var(--ink-2)}
+.slides figcaption small{color:var(--ink-3)}
+.src{font-size:.8rem;color:var(--ink-2)}
+.src ul{margin:4px 0 0;padding-left:16px}
+.src li{overflow-wrap:anywhere}
+.done-hide{display:none!important}
+#lb{position:fixed;inset:0;z-index:50;background:var(--veil);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));cursor:zoom-out}
+#lb img{max-width:100%;max-height:100%;background:#fff;border-radius:4px}
+/* Nov 6 (histology): legend line decoding the letters/arrows printed on a picture */
+.lgd{font-family:var(--sans);font-size:.84rem;line-height:1.5;color:var(--ink);margin-top:5px;max-width:828px}
+.lgd .lgl{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-right:6px}
+.lgd b{font-weight:700;color:var(--ink)}
+.lgd .sep{color:var(--ink-3);padding:0 .35em}
+.primer .lgd{max-width:560px}
+.qlgd{margin:-4px 0 10px}
+#lb{flex-direction:column;gap:10px}
+#lb img{min-height:0;flex:0 1 auto;object-fit:contain}
+#lb .lgd{flex:none;max-width:min(100%,1100px);background:var(--paper);border-radius:4px;padding:8px 12px;font-size:.92rem}
+body.toponly .q:not(.top):not(.shown){display:none}
+body.toponly .grp:not(:has(.q.top,.q.shown)),body.toponly section.sec:not(:has(.q.top)){display:none}
+body.toponly .grp{background:none;padding:0;margin:0}
+body.toponly .ghead{display:none}
+body.toponly .grp .q:last-child{border-bottom:1px solid var(--rule)}
+.ntop{display:none}
+body.toponly .ntop{display:inline}
+body.toponly .nall{display:none}
+.btn .cnt{font-weight:400;opacity:.8}
+body.staronly .q:not(.starred){display:none}
+body.staronly .grp:not(:has(.q.starred)),body.staronly section.sec:not(:has(.q.starred)){display:none}
+/* Lecture summary: a reading panel at the top of each lecture, before its questions */
+.sum{margin:14px 0 22px;border:1px solid var(--rule);border-top:3px solid var(--accent);border-radius:0 0 8px 8px;background:var(--panel)}
+.sum>summary{list-style:none;cursor:pointer;padding:12px 16px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;font-family:var(--sans)}
+.sum>summary::-webkit-details-marker{display:none}
+.sum>summary .t{font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.sum>summary .m{font-size:.8rem;color:var(--ink-3)}
+.sum>summary .tg{margin-left:auto;font-size:.78rem;font-weight:600;color:var(--ink-2)}
+.sum[open]>summary .tg::after{content:"Collapse ▴"}
+.sum:not([open])>summary .tg::after{content:"Read the summary ▾"}
+.sumbody{padding:0 16px 16px}
+.sumbody>p,.sumbody>ul,.sumbody>ol,.sumbody>h3{max-width:74ch}
+.sumbody .bp{font-size:1.06rem;line-height:1.6;color:var(--ink);margin:0 0 6px;padding:10px 14px;background:var(--paper);border-left:3px solid var(--accent);border-radius:0 4px 4px 0}
+.sumbody h3{font-family:var(--serif);font-weight:600;font-size:1.12rem;margin:22px 0 4px;text-wrap:balance;color:var(--ink)}
+.sumbody p{margin:.45em 0;line-height:1.62}
+.sumbody ul,.sumbody ol{margin:.4em 0;padding-left:1.25em}
+.sumbody li{margin:.18em 0;line-height:1.55}
+.sumbody b{font-weight:600;color:var(--accent)}
+.sumbody .tw{overflow-x:auto;margin:.6em 0;max-width:100%}
+.sumbody table{border-collapse:collapse;font-family:var(--sans);font-size:.88rem;line-height:1.4;min-width:100%}
+.sumbody th,.sumbody td{border:1px solid var(--rule-2);padding:5px 8px;text-align:left;vertical-align:top}
+.sumbody th{background:var(--accent-soft);font-weight:700;color:var(--ink)}
+.sumbody td{background:var(--paper)}
+.sumbody figure{margin:10px 0 4px}
+.sumbody figure img{display:block;width:100%;max-width:640px;height:auto;border:1px solid var(--rule-2);border-radius:4px;background:#fff;cursor:zoom-in}
+.sumbody figcaption{font-family:var(--sans);font-size:.8rem;color:var(--ink-2);margin-top:3px}
+.sumbody figcaption small{color:var(--ink-3)}
+.sumbox{margin-top:20px;padding:10px 14px;border-radius:6px;border:1px solid var(--rule-2);background:var(--paper)}
+.sumbox .lab{font-family:var(--sans);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px}
+.sumbox.mk{border-left:4px solid var(--accent)}
+.sumbox.mk .lab{color:var(--accent)}
+.sumbox.tr{border-left:4px solid var(--amber);background:var(--amber-soft)}
+.sumbox.tr .lab{color:var(--amber)}
+.sumbox ul{margin:4px 0 0}
+.sumend{font-family:var(--sans);font-size:.8rem;color:var(--ink-3);margin-top:14px}
+.sumend a{color:var(--accent)}
+body.nosum .sum,body.staronly .sum,body.searching .sum{display:none}
+.empty{font-family:var(--sans);color:var(--ink-3);padding:24px 0}
+/* Learning-order steps: a short teaching paragraph before every few questions */
+.unit{margin-top:6px}
+.primer{margin:22px 0 4px;padding:12px 16px 13px;background:var(--panel);border:1px solid var(--rule);border-left:4px solid var(--accent);border-radius:0 8px 8px 0}
+.primer .pn{display:block;font-family:var(--sans);font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.primer h3{font-family:var(--serif);font-weight:600;font-size:1.14rem;line-height:1.3;margin:2px 0 4px;text-wrap:balance}
+.primer p{margin:.35em 0 0;line-height:1.64;max-width:76ch}
+.primer b{font-weight:600;color:var(--accent)}
+.primer .pq{font-family:var(--sans);font-size:.76rem;color:var(--ink-3);margin-top:8px}
+body.noprimer .primer,body.searching .primer{display:none}
+body.toponly .unit:not(:has(.q.top,.q.shown)),body.staronly .unit:not(:has(.q.starred)){display:none}
+/* Nov 5 (anatomy, D.meta.tier): each part = its core questions, then a "More questions" dropdown (repeats, harder versions) */
+.t2{margin:16px 0 6px}
+.t2btn{display:flex;width:100%;align-items:baseline;flex-wrap:wrap;gap:4px 10px;text-align:left;font-family:var(--sans);font-size:.88rem;font-weight:700;color:var(--accent);background:var(--panel);border:1px dashed var(--accent);border-radius:8px;padding:10px 14px;cursor:pointer}
+.t2btn:hover{background:var(--accent-soft)}
+.t2btn .t2n{font-weight:400;font-size:.8rem;color:var(--ink-2)}
+.t2btn::after{content:"Show \25BE";margin-left:auto;font-size:.76rem;font-weight:600}
+.t2.open>.t2btn::after{content:"Hide \25B4"}
+.t2.open>.t2btn{border-style:solid}
+.t2body{border-left:3px solid var(--rule-2);padding-left:14px;margin:6px 0 0 4px}
+.t2body .q:last-child{border-bottom:0}
+body.staronly .t2body[hidden],body.searching .t2body[hidden]{display:block!important}
+body.staronly .t2btn,body.searching .t2btn{display:none}
+body.staronly .t2:not(:has(.q.starred)){display:none}
+.like{font-family:var(--sans);font-size:.72rem;color:var(--ink-2);background:var(--grp);border:1px solid var(--rule);border-radius:999px;padding:0 8px;white-space:nowrap}
+.like.hard{color:var(--amber);background:var(--amber-soft);border-color:transparent}
+body.toponly .primer .pq,body.staronly .primer .pq{display:none}
+/* Lecture notes (Nov 3 v2): numbered sections and parts; each part's notes are followed by its questions */
+.lout{margin:14px 0 8px;padding:12px 16px;border:1px solid var(--rule);border-top:3px solid var(--accent);border-radius:0 0 8px 8px;background:var(--panel);font-family:var(--sans);font-size:.86rem}
+.lout .t{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.lout ol{margin:0;padding-left:1.3em}
+.lout>ol>li{margin:6px 0 0;font-weight:600}
+.lout ol ol{list-style:none;padding-left:0;font-weight:400;columns:2 260px;column-gap:24px}
+.lout ol ol li{margin:2px 0;break-inside:avoid}
+.lout a{color:var(--ink);text-decoration:none}
+.lout a:hover{color:var(--accent);text-decoration:underline}
+.lout .pnum{color:var(--ink-3);font-variant-numeric:tabular-nums;margin-right:6px}
+.lsec{font-family:var(--serif);font-weight:600;font-size:1.42rem;line-height:1.25;margin:44px 0 0;padding-bottom:6px;border-bottom:2px solid var(--accent);display:flex;gap:10px;align-items:baseline;text-wrap:balance}
+.lsec .sn{font-family:var(--sans);font-size:.78rem;font-weight:700;letter-spacing:.06em;color:var(--paper);background:var(--accent);border-radius:4px;padding:2px 8px;flex:none}
+.primer.notes{padding:14px 18px 15px}
+.primer.notes h3{font-size:1.2rem}
+/* Nov 5: each notes part folds away: click its title bar (Hide / Show) */
+details.primer.fold>summary{display:block;list-style:none;cursor:pointer;position:relative;padding-right:104px}
+details.primer.fold>summary::-webkit-details-marker{display:none}
+details.primer.fold>summary::after{content:"Hide \25B4";position:absolute;right:0;top:0;font-family:var(--sans);font-size:.74rem;font-weight:600;line-height:1;color:var(--ink-2);border:1px solid var(--rule-2);border-radius:999px;padding:6px 12px;background:var(--paper)}
+details.primer.fold>summary:hover::after{border-color:var(--ink-2);color:var(--ink)}
+details.primer.fold:not([open])>summary::after{content:"Show \25BE";color:var(--accent);border-color:var(--accent)}
+details.primer.fold:not([open]){padding-bottom:10px}
+details.primer.fold:not([open]) h3{margin-bottom:0}
+details.primer.fold>summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
+.primer h4{font-family:var(--sans);font-size:.76rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin:18px 0 4px}
+.primer ul,.primer ol{margin:.35em 0;padding-left:1.25em;max-width:78ch}
+.primer .rrv{margin:20px 0 6px;padding:10px 16px 10px;border:1px solid var(--rule-2);border-left:4px solid var(--accent);border-radius:8px;background:var(--accent-soft);max-width:82ch}
+.primer .rrv h4{margin:2px 0 6px;color:var(--accent)}
+.primer .rrv ul{margin:0;padding-left:1.15em}
+.primer .rrv li{margin:.18em 0;font-family:var(--sans);font-size:.95rem;line-height:1.4}
+.primer li{margin:.22em 0;line-height:1.56}
+.primer li>ul{margin:.15em 0}
+.primer .tw{overflow-x:auto;margin:.6em 0 .4em;max-width:100%}
+.primer table{border-collapse:collapse;font-family:var(--sans);font-size:.86rem;line-height:1.42;min-width:100%}
+.primer th,.primer td{border:1px solid var(--rule-2);padding:5px 8px;text-align:left;vertical-align:top}
+.primer th{background:var(--accent-soft);font-weight:700;color:var(--ink)}
+.primer td{background:var(--paper)}
+.primer figure{margin:12px 0 6px}
+.primer figure img{display:block;width:100%;max-width:560px;height:auto;border:1px solid var(--rule-2);border-radius:4px;background:#fff;cursor:zoom-in}
+.primer figcaption{font-family:var(--sans);font-size:.78rem;color:var(--ink-2);margin-top:3px;max-width:560px}
+.primer figcaption small{color:var(--ink-3)}
+body.searching .lsec,body.searching .lout{display:none}
+.foot{margin-top:40px;font-family:var(--sans);font-size:.78rem;color:var(--ink-3)}
+/* Nov 4 (anatomy): sharp slides + close-ups + textbook figures, picture stars, zoom viewer, highlighter */
+.pimg{position:relative;display:inline-block;max-width:100%;vertical-align:top}
+.pimg>img{display:block;max-width:100%}
+figure.sf>.pimg{display:block}
+.slides figure.sf>.pimg{max-width:828px}
+.primer figure.sf>.pimg{max-width:560px}
+.slides figure.sf{margin:14px 0 0;padding-top:12px;border-top:1px solid var(--rule)}
+.slides figure.sf:first-of-type{border-top:0;padding-top:0}
+.slides .pimg>img{width:auto;max-width:100%;max-height:min(78vh,640px)}
+.slides figure.sf>.pimg>img{width:100%;max-width:828px;max-height:none}
+.cuw{margin-top:8px}
+.cul{display:block;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.cuw img{border:1px solid var(--rule-2);border-radius:4px;background:#fff;cursor:zoom-in;max-width:100%;max-height:min(80vh,720px);width:auto;height:auto}
+.primer .cuw img{max-height:min(70vh,560px);width:auto;max-width:min(100%,560px)}
+.tbb{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--paper);background:var(--accent);border-radius:3px;padding:1px 6px;margin-right:4px;vertical-align:1px}
+.slides figure.tbk>.pimg{display:inline-block;max-width:100%}
+.slides figure.tbk .pimg>img{width:auto;max-width:100%;max-height:min(85vh,820px)}
+.slides>summary .sct{font-weight:400;text-transform:none;letter-spacing:0}
+.pstar{position:absolute;top:6px;right:6px;z-index:1;font-family:var(--sans);font-size:1.05rem;line-height:1;width:32px;height:32px;border-radius:999px;border:1px solid var(--rule-2);background:color-mix(in srgb,var(--paper) 88%,transparent);color:var(--ink-3);cursor:pointer;box-shadow:0 1px 4px var(--shadow)}
+.pstar:hover{color:var(--gold);border-color:var(--gold)}
+.pstar[aria-pressed="true"]{color:var(--gold);border-color:var(--gold)}
+.qpimg{margin:10px 0}
+.qpimg .qimg{margin:0}
+/* viewer */
+#lb2{position:fixed;inset:0;z-index:60;background:var(--veil);display:flex;flex-direction:column}
+#lb2 .lbbar{display:flex;align-items:center;gap:10px;padding:8px 14px;font-family:var(--sans);font-size:.84rem;color:#E8EDEF;background:#0B0F11}
+#lb2 .lbcap{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#lb2 .lbcap small{opacity:.75}
+#lb2 .lbn{opacity:.75;font-variant-numeric:tabular-nums;white-space:nowrap}
+#lb2 .lbhint{opacity:.6;white-space:nowrap}
+#lb2 button.lbb{font-family:var(--sans);font-size:1rem;line-height:1;min-width:34px;height:34px;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.3);color:#fff;cursor:pointer}
+#lb2 button.lbb:hover{border-color:#fff}
+#lb2 button.lbstar[aria-pressed="true"]{color:#F2C94C;border-color:#F2C94C}
+#lb2 .lbstage{flex:1;overflow:auto;display:flex;align-items:center;justify-content:center;padding:12px}
+#lb2 .lbstage img{max-width:100%;max-height:100%;background:#fff;border-radius:4px;cursor:zoom-in;user-select:none;-webkit-user-drag:none}
+#lb2.zoomed .lbstage{display:block;cursor:grab}
+#lb2.zoomed .lbstage img{max-width:none;max-height:none;cursor:zoom-out;margin:auto;display:block}
+#lb2.zoomed.dragging .lbstage{cursor:grabbing}
+#lb2 .lbnav{position:absolute;top:50%;transform:translateY(-50%);font-size:1.6rem!important;width:44px;height:64px!important;border-radius:8px!important}
+#lb2 .lbprev{left:10px}#lb2 .lbnext{right:10px}
+/* starred-pictures gallery */
+#gal{position:fixed;inset:0;z-index:55;background:var(--paper);overflow:auto}
+#gal .gin{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+#gal .ghd{display:flex;align-items:baseline;gap:12px;position:sticky;top:0;background:var(--paper);padding:10px 0;border-bottom:2px solid var(--ink);z-index:1}
+#gal .ghd h2{font-family:var(--serif);font-weight:600;font-size:1.4rem;margin:0;flex:1}
+#gal .gl{font-family:var(--sans);font-size:.76rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:22px 0 8px}
+#gal .gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+#gal figure{margin:0;background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:8px}
+#gal figure .pimg{width:100%}
+#gal figure img{width:100%;height:190px;object-fit:contain;background:#fff;border-radius:4px;cursor:zoom-in}
+#gal figcaption{font-family:var(--sans);font-size:.8rem;color:var(--ink-2);margin-top:6px}
+#gal figcaption small{color:var(--ink-3)}
+#gal .gempty{font-family:var(--sans);color:var(--ink-3);padding:30px 0}
+/* highlighter */
+mark.hl{background:#FFE36E;color:inherit;border-radius:2px;padding:0 1px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+mark.hl.hg{background:#BDEBC4}
+mark.hl.hp{background:#F8C8DC}
+span.hlu{text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:2px;text-underline-offset:3px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) mark.hl{background:rgba(240,196,107,.38)} :root:not([data-theme="light"]) mark.hl.hg{background:rgba(134,210,156,.32)} :root:not([data-theme="light"]) mark.hl.hp{background:rgba(241,154,190,.32)}}
+:root[data-theme="dark"] mark.hl{background:rgba(240,196,107,.38)} :root[data-theme="dark"] mark.hl.hg{background:rgba(134,210,156,.32)} :root[data-theme="dark"] mark.hl.hp{background:rgba(241,154,190,.32)}
+#hltools{position:fixed;z-index:70;display:flex;gap:4px;padding:5px;background:var(--ink);border-radius:8px;box-shadow:0 4px 14px var(--shadow);font-family:var(--sans)}
+#hltools[hidden]{display:none}
+#hltools button{font-family:var(--sans);font-size:.8rem;font-weight:600;border:0;border-radius:5px;padding:5px 9px;cursor:pointer;color:var(--ink);background:var(--paper)}
+#hltools button:hover{outline:2px solid var(--accent)}
+#hltools .sw{width:26px;padding:5px 0}
+#hltools .sw.y{background:#FFE36E}#hltools .sw.g{background:#BDEBC4}#hltools .sw.p{background:#F8C8DC}
+#hltools .u{text-decoration:underline;text-decoration-color:#C0392B;text-decoration-thickness:2px}
+.hlnote{font-family:var(--sans);font-size:.8rem;color:var(--ink-3);margin-top:8px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{.floatreset,.controls,.toc{display:none!important}}
+</style>
+
+</head>
+<body>
+<main class="wrap">
+<a class="home" href="index.html">← All lab identification pages</a><header class="mast">
+  <div class="eyebrow">Thorax & GI lab · identification</div>
+  <h1>Cadaver identification questions</h1>
+  <nav class="ttabs" aria-label="Picture types"><a href="cadaver.html" aria-current="page">Cadaver<span>94</span></a><a href="plastination.html">Plastination<span>217</span></a><a href="visible-body.html">Visible Body<span>234</span></a><a href="xray.html">X-ray &amp; CT<span>310</span></a><a href="cross-sections.html">Cross-sections<span>722</span></a><a href="bones.html">Bones<span>24</span></a></nav>
+  <p class="lede" id="lede">Every labeled structure on the 74 cadaver photos from the thorax and GI lab, as a “what is this?” question. All labels are covered and the yellow ? marks the one asked; pick its name from five look-alike choices. Each region opens with a short summary of the structures it covers. Each part has short notes, then its core questions (one per structure), then a “More questions” dropdown with the same structures on other pictures. After you answer: where it lies, how to find it, why each other choice is wrong, and more pictures of it.</p>
+  <div class="tally" id="tally"></div>
+  <div class="controls">
+    <button class="btn" id="toponly" type="button" aria-pressed="false" title="One question from each group of similar questions (the clearest, newest version), at most 50 per lecture; groups asked most often across years come first">Top questions only <span class="cnt" id="topcnt"></span></button>
+    <button class="btn" id="staronly" type="button" aria-pressed="false">★ Starred only</button>
+    <button class="btn" id="nosum" type="button" aria-pressed="false" hidden>Hide summaries</button>
+    <button class="btn" id="reset" type="button">Clear my answers</button>
+    <button class="btn" id="picstars" type="button" hidden>★ Starred pictures <span class="cnt" id="pscnt"></span></button>
+    <button class="btn" id="hlclear" type="button" hidden title="Remove every highlight and underline on this page">Clear highlights</button>
+    <input id="q" type="search" placeholder="Search a structure, e.g. azygos" aria-label="Search questions">
+  </div>
+</header>
+<nav class="toc" id="toc" aria-label="Lectures"></nav>
+<div id="body"></div>
+<div id="hltools" hidden role="toolbar" aria-label="Highlight the selected text"><button type="button" class="sw y" data-a="y" title="Highlight yellow (H)" aria-label="Highlight yellow"></button><button type="button" class="sw g" data-a="g" title="Highlight green" aria-label="Highlight green"></button><button type="button" class="sw p" data-a="p" title="Highlight pink" aria-label="Highlight pink"></button><button type="button" class="u" data-a="u" title="Underline (U)">U</button><button type="button" data-a="x" title="Erase highlights and underlines in the selection (E)">Erase</button></div>
+<p class="foot">Built from the Thorax &amp; GI lab pictures page: the 2026 Canvas lab documents (plastination slides and the practice practical), NetAnatomy radiographs and cross-sections, the 2020–2021 TA mock practicals and the 2021 zSpace review. Wrong choices are other structures from the same picture, the same region or the mirror-image name. Stars, answers and highlights are saved in this browser only.</p>
+</main>
+<button class="btn floatreset" id="reset2" type="button" hidden>Clear my answers</button>
+
+<script src="data-cadaver.js"></script>
+<script>
+(function(){
+const D=window.GIQ, KEY="labid-cadaver", FEAT=!!(D.meta&&D.meta.feat);
+const store={get(k){try{return JSON.parse(localStorage.getItem(k)||"null")}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const FOLD=!!(D.meta&&D.meta.fold), FD=FOLD?(store.get(KEY+"-fold")||{}):{};  // Nov 5: closed notes parts, {"<lecture>:<part>":1}
+const TIER=!!(D.meta&&D.meta.tier), T2=TIER?(store.get(KEY+"-t2")||{}):{};  // Nov 5: core / more tiers; open "More questions" dropdowns, {"<lecture>:<part>":1}
+const done=store.get(KEY+"-done")||{}, stars=store.get(KEY+"-stars")||{};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const lgHTML=(L,cls)=>L&&L.length?`<div class="lgd${cls?" "+cls:""}"${cls?" hidden":""}><span class="lgl">Labels</span>${L.map(([k,v])=>`<b>${esc(k)}</b> ${esc(v)}`).join('<span class="sep">·</span>')}</div>`:"";  // Nov 6
+const lt=o=>String(o).trim().replace(/^\(/,"").charAt(0).toUpperCase();
+const byId={}; D.groups.forEach(g=>g.q.forEach(q=>{byId[q.id]=q;q._g=g}));
+const nq=D.groups.reduce((a,g)=>a+g.q.length,0), ng=D.groups.filter(g=>g.q.length>1).length;
+const nsrc=new Set(D.groups.flatMap(g=>g.q.flatMap(q=>q.src.map(s=>s.f||s.t+"|"+s.n)))).size;
+$("#tally").innerHTML=`<span><b>${nq}</b> questions</span>${D.meta&&D.meta.uw?`<span><b>${D.groups.reduce((a,g)=>a+g.q.filter(q=>q.tier===1).length,0)}</b> core · <b>${D.groups.reduce((a,g)=>a+g.q.filter(q=>q.tier===2).length,0)}</b> more</span>`:`<span><b>${ng}</b> groups of similar questions</span>`}<span><b>${D.meta.npic}</b> pictures</span><span class="score" id="score"></span>`;
+$("#lede").textContent=D.meta.lede;
+
+const pct=x=>(x*100).toFixed(2)+"%", boxCSS=b=>`left:${pct(b[0])};top:${pct(b[1])};width:${pct(b[2]-b[0])};height:${pct(b[3]-b[1])}`;
+function occHTML(q){
+  return `<div class="pimg qpimg occ" data-cap="${esc(q.s)}" data-where="${esc(q.src[0]?q.src[0].n:"")}"><img class="qimg" loading="lazy" src="${q.img}" width="1000" height="${Math.round(1000*q.ar)}" alt="Picture with every label covered">${q.ob.map(b=>`<span class="cv${b[5]?" tg":""}" style="${boxCSS(b)}">${b[5]?(b[4]?esc(b[4])+" ?":"?"):esc(b[4])}</span>`).join("")}</div>`; }
+function card(q,n,note){
+  const badges=(note||"")+q.src.slice(0,3).map(s=>`<span class="badge" title="${esc(s.n)}${s.sl?" · slide "+s.sl:""}">${esc(s.t)}</span>`).join("")+(q.src.length>3?`<span class="badge">+${q.src.length-3}</span>`:"");
+  const opts=!q.rv?`<div class="opts">${q.o.map(o=>`<button class="opt" type="button" data-l="${esc(lt(o))}">${esc(o)}</button>`).join("")}</div>`
+    :(q.o.length?`<ol class="olist" type="A">${q.o.map(o=>`<li>${esc(o)}</li>`).join("")}</ol>`:"")+`<button class="btn showans" type="button">Show answer</button>`;
+  return `<article class="q${stars[q.id]?" starred":""}${q.t?" top":""}" data-id="${esc(q.id)}"><header><span class="qn">${n}</span>${badges}<button class="star" type="button" aria-pressed="${!!stars[q.id]}" aria-label="Star this question" title="Star">${stars[q.id]?"★":"☆"}</button></header>
+    <div class="stem" data-hk="s:${esc(q.id)}">${esc(q.s)}</div>${q.ob?occHTML(q):q.img?(FEAT?`<div class="pimg qpimg" data-cap="${esc("Question picture · "+String(q.s).slice(0,90))}" data-where="${esc(q.src[0]?q.src[0].t:"")}"><img class="qimg" loading="lazy" src="${q.img}" alt="${esc(q.in||"Question picture")}"></div>`:`<img class="qimg" loading="lazy" src="${q.img}" alt="${esc(q.in||"Question picture")}">${lgHTML(q.lg,"qlgd")}`):(q.in?`<div class="inote">Picture in the source: ${esc(q.in)}</div>`:"")}
+    ${opts}<div class="verdict" hidden></div><div class="reveal" hidden></div></article>`; }
+
+function answer(el,q,picked){
+  const G=q.g||[], g=q._g, opts=q.o.filter(o=>G.includes(lt(o)));
+  const label=q.rv?(q.at||q.a||"—"):(G.length?opts.join("  /  "):"No option is correct as written");
+  const v=el.querySelector(".verdict");
+  if(!q.rv){ const ok=picked?G.includes(picked):true; v.className="verdict "+(ok?"ok":"no"); v.innerHTML=(ok?"Correct":"Not quite")+`<button class="again" type="button">Try again</button>`+(q.ob&&q.ob.length>1?`<button class="again labs" type="button">Show all labels</button>`:""); }
+  else { v.className="verdict"; v.innerHTML=`<button class="again" type="button">Hide answer</button>`; const b=el.querySelector(".showans"); if(b) b.hidden=true; }
+  v.hidden=false; const ql=el.querySelector(".qlgd"); if(ql) ql.hidden=false; const oc=el.querySelector(".occ"); if(oc) oc.classList.add("ans");
+  let h=`<div class="ans" data-hk="a:${esc(q.id)}"><span class="lab">${G.length>1&&!q.rv?"Accepted answers":"Answer"}</span>${esc(label)}</div>`;
+  if(q.fl.length) h+=q.fl.map((f,i)=>`<div class="fixbox" data-hk="f:${esc(q.id)}:${i}"><span class="lab">Note</span>${esc(f)}</div>`).join("");
+  if(q.why) h+=`<div class="why" data-hk="w:${esc(q.id)}"><span class="lab">Why</span>${q.why}</div>`; else if(q.ex) h+=`<div class="why" data-hk="w:${esc(q.id)}"><span class="lab">From the source</span>${esc(q.ex)}</div>`;
+  if(g.slides.length&&FEAT){ const nt=g.slides.filter(s=>s.tb).length, ns=g.slides.length-nt;
+    h+=`<details class="slides"><summary>More pictures of it <span class="sct">(${[nt?"textbook drawing":"",ns?ns+" other picture"+(ns>1?"s":""):""].filter(Boolean).join(", ")})</span></summary>${g.slides.map(figHTML).join("")}</details>`; }
+  else if(g.slides.length) h+=`<details class="slides"><summary>Slides (${g.slides.length})</summary>${g.slides.map(s=>`<figure><img loading="lazy" src="${s.src}" alt="${esc(s.cap)}"><figcaption>${esc(s.cap)} <small>· ${esc(s.where)}</small></figcaption>${lgHTML(s.lg)}</figure>`).join("")}</details>`;
+  h+=`<details class="src"><summary>Sources (${q.src.length})</summary><ul>${q.src.map(s=>`<li>${esc(s.t)} — ${esc(s.n)}${s.sl?" (slide "+s.sl+")":""}</li>`).join("")}</ul>${q.tg.length?`<div>Taught: ${esc(q.tg.join("; "))}</div>`:""}</details>`;
+  const r=el.querySelector(".reveal"); r.innerHTML=h; r.hidden=false;
+  if(FEAT){ decorate(r); r.querySelectorAll("[data-hk]").forEach(applyHL); }
+  el.querySelectorAll(".opt").forEach(b=>{ b.disabled=true; b.querySelectorAll(".mk").forEach(m=>m.remove());
+    if(G.includes(b.dataset.l)){ b.classList.add("right"); b.insertAdjacentHTML("beforeend",'<span class="mk">✓</span>'); }
+    if(picked&&b.dataset.l===picked&&!G.includes(picked)){ b.classList.add("wrong"); b.insertAdjacentHTML("beforeend",'<span class="mk">✗ your choice</span>'); } });
+}
+function resetCard(el){
+  const v=el.querySelector(".verdict"), r=el.querySelector(".reveal");
+  v.hidden=true; v.innerHTML=""; r.hidden=true; r.innerHTML=""; const ql=el.querySelector(".qlgd"); if(ql) ql.hidden=true; const oc=el.querySelector(".occ"); if(oc) oc.classList.remove("ans","all");
+  el.querySelectorAll(".opt").forEach(b=>{ b.disabled=false; b.classList.remove("right","wrong"); b.querySelectorAll(".mk").forEach(m=>m.remove()); });
+  const b=el.querySelector(".showans"); if(b) b.hidden=false;
+}
+function score(){ const v=Object.entries(done).filter(([k,x])=>byId[k]&&x!=="seen"); const ok=v.filter(([k,x])=>x==="ok").length;
+  $("#score").innerHTML=v.length?`Score <b>${ok}</b> / ${v.length} (${Math.round(100*ok/v.length)}%)`:""; }
+
+// ---- lecture summary panel (read first, then the questions)
+const SUM=D.sum||{}, UNITS=D.units||[];
+function sumPanel(l){
+  const S=SUM[l.id]; if(!S) return "";
+  const tw=h=>h.replace(/<table>/g,'<div class="tw"><table>').replace(/<\/table>/g,"</table></div>");
+  const words=(S.bp+" "+S.sec.map(s=>s.html).join(" ")).replace(/<[^>]+>/g," ").split(/\s+/).filter(Boolean).length;
+  let h=`<details class="sum" open><summary><span class="t">Lecture summary</span><span class="m">${S.sec.length} parts · about ${Math.max(1,Math.round(words/200))} min read · then the questions</span><span class="tg"></span></summary><div class="sumbody">`;
+  if(S.bp) h+=`<p class="bp">${S.bp}</p>`;
+  for(const s of S.sec){
+    h+=`<h3>${s.h}</h3>${tw(s.html)}`;
+    h+=s.figs.map(f=>`<figure><img loading="lazy" src="${f.src}" alt="${esc(f.cap)}"><figcaption>${esc(f.cap)} <small>· ${esc(f.where)}</small></figcaption></figure>`).join("");
+  }
+  if(S.mk.length) h+=`<div class="sumbox mk"><span class="lab">Key facts to remember</span><ul>${S.mk.map(x=>`<li>${x}</li>`).join("")}</ul></div>`;
+  if(S.tr.length) h+=`<div class="sumbox tr"><span class="lab">Easy to mix up</span><ul>${S.tr.map(x=>`<li>${x}</li>`).join("")}</ul></div>`;
+  h+=`<p class="sumend">End of summary. The ${esc(l.id.split("-")[1])} questions start below.</p></div></details>`;
+  return h;
+}
+
+// ---- Nov 4 (anatomy page only, D.meta.feat): picture stars + gallery, zoom viewer, highlighter
+const PS=FEAT?(store.get(KEY+"-picstars")||{}):{}, HL=FEAT?(store.get(KEY+"-hl")||{}):{};
+function figHTML(s){
+  const cu=s.cu?`<div class="cuw"><span class="cul">Close-up of the picture</span><div class="pimg" data-cap="${esc("Close-up · "+s.cap)}" data-where="${esc(s.where)}"><img loading="lazy" class="cuimg" src="${s.cu}" alt="${esc("Close-up: "+s.cap)}"></div></div>`:"";
+  return `<figure class="sf${s.tb?" tbk":""}"><div class="pimg" data-cap="${esc(s.cap)}" data-where="${esc(s.where)}"><img loading="lazy" src="${s.src}" alt="${esc(s.cap)}">${(s.ov||[]).map(b=>`<span class="ovb" style="${boxCSS(b)}"></span>`).join("")}</div>${cu}<figcaption>${s.tb?'<span class="tbb">Textbook</span>':""}${esc(s.cap)} <small>· ${esc(s.where)}</small></figcaption>${lgHTML(s.lg)}</figure>`; }
+function picMeta(p){
+  const img=p.querySelector("img"), fig=p.closest("figure"); let cap=p.dataset.cap||"", where=p.dataset.where||"";
+  if(!cap&&fig){ const fc=fig.querySelector("figcaption"); if(fc){ const sm=fc.querySelector("small"); if(!where&&sm) where=sm.textContent.replace(/^\s*·\s*/,"");
+      cap=[...fc.childNodes].filter(n=>n.nodeName!=="SMALL"&&!(n.classList&&n.classList.contains("tbb"))).map(n=>n.textContent).join("").trim(); if(p.closest(".cuw")) cap="Close-up · "+cap; } }
+  const sec=p.closest("section.sec"); let ctx="";
+  const art=p.closest("article.q"); if(art&&byId[art.dataset.id]) ctx=byId[art.dataset.id]._g.label||"";
+  else { const pr=p.closest(".primer"); if(pr){ const pn=pr.querySelector(".pn"), h3=pr.querySelector("h3"); ctx=(pn?pn.textContent+" · ":"")+(h3?h3.textContent:""); } }
+  const ovh=[...p.querySelectorAll(":scope>.cv,:scope>.ovb")].map(x=>x.outerHTML).join(""), st=["ans","all"].filter(c=>p.classList.contains(c)).join(" ");
+  return {src:img.getAttribute("src"), cap:cap||img.alt||"", where, l:sec?sec.id:"", ctx, ovh, st}; }
+function setStar(b,on){ b.setAttribute("aria-pressed",on); b.textContent=on?"★":"☆"; b.title=on?"Starred: tap to unstar":"Star this picture"; }
+function decorate(root){ if(!FEAT) return; root.querySelectorAll(".pimg").forEach(p=>{ if(p.querySelector(".pstar")) return; const i=p.querySelector("img"); if(!i) return;
+  const b=document.createElement("button"); b.type="button"; b.className="pstar nohl"; b.setAttribute("aria-label","Star this picture"); setStar(b,!!PS[i.getAttribute("src")]); p.appendChild(b); }); }
+function psCount(){ const n=Object.keys(PS).length; $("#pscnt").textContent=n?"("+n+")":""; }
+function syncStars(src){ document.querySelectorAll(".pimg").forEach(p=>{ const i=p.querySelector("img"); if(i&&i.getAttribute("src")===src){ const b=p.querySelector(".pstar"); if(b) setStar(b,!!PS[src]); } });
+  if(LB&&LB.lb._cur&&LB.lb._cur.src===src) setStar(LB.lb.querySelector(".lbstar"),!!PS[src]); psCount(); if(document.getElementById("gal")) renderGal(); }
+function starPic(m){ if(PS[m.src]) delete PS[m.src]; else PS[m.src]={src:m.src,cap:m.cap,where:m.where,l:m.l,ctx:m.ctx,t:Date.now()}; store.set(KEY+"-picstars",PS); syncStars(m.src); }
+function togglePic(b){ starPic(picMeta(b.closest(".pimg"))); }
+function renderGal(){
+  let g=document.getElementById("gal"); const keep=g?g.scrollTop:0;
+  if(!g){ g=document.createElement("div"); g.id="gal"; g.setAttribute("role","dialog"); g.setAttribute("aria-label","Starred pictures"); document.body.appendChild(g); document.body.style.overflow="hidden"; }
+  const order=Object.fromEntries(D.lectures.map((l,i)=>[l.id,i])), items=Object.values(PS).sort((a,b)=>(order[a.l]??99)-(order[b.l]??99)||a.t-b.t);
+  let h=`<div class="gin"><div class="ghd"><h2>Starred pictures</h2><span class="tally">${items.length} picture${items.length===1?"":"s"}</span><button class="btn" type="button" id="galx">Close</button></div>`;
+  if(!items.length) h+=`<p class="gempty">No starred pictures yet. Tap the ☆ in the corner of any slide, close-up, textbook picture, notes figure or question picture to keep it here.</p>`;
+  let last=null;
+  for(const it of items){ if(it.l!==last){ if(last!==null) h+=`</div>`; last=it.l; const L=D.lectures.find(x=>x.id===it.l); h+=`<div class="gl">${esc(it.l)} ${L?esc(L.t):""}</div><div class="gg">`; }
+    h+=`<figure><div class="pimg" data-cap="${esc(it.cap)}" data-where="${esc(it.where)}"><img loading="lazy" src="${esc(it.src)}" alt="${esc(it.cap)}"></div><figcaption>${esc(it.cap)}<br><small>${esc(it.where)}${it.ctx?" · "+esc(it.ctx):""}</small></figcaption></figure>`; }
+  if(last!==null) h+=`</div>`;
+  g.innerHTML=h+`</div>`; decorate(g); g.scrollTop=keep; g.querySelector("#galx").onclick=closeGal; }
+function closeGal(){ const g=document.getElementById("gal"); if(g){ g.remove(); if(!LB) document.body.style.overflow=""; } }
+let LB=null;
+function openViewer(img){
+  const box=img.closest("#gal, .slides, .primer, article.q")||document.body;
+  const list=[...box.querySelectorAll(".pimg img")].map(i=>picMeta(i.closest(".pimg"))); let k=Math.max(0,list.findIndex(m=>m.src===img.getAttribute("src")));
+  if(box.id==="gal"){ const it=Object.values(PS); list.forEach(m=>{ const s=PS[m.src]; if(s){ m.l=s.l; m.ctx=s.ctx; m.cap=s.cap; m.where=s.where; } }); }
+  const lb=document.createElement("div"); lb.id="lb2"; lb.setAttribute("role","dialog"); lb.setAttribute("aria-label","Picture viewer");
+  lb.innerHTML=`<div class="lbbar"><span class="lbcap"></span><span class="lbhint">Click the picture to zoom in · drag to move${list.length>1?" · ← → next":""}</span><span class="lbn"></span><button type="button" class="lbb lbstar nohl">☆</button><button type="button" class="lbb lbx" title="Close (Esc)" aria-label="Close">✕</button></div><div class="lbstage"><div class="lbw"><img alt=""><div class="lbov"></div></div></div>`+
+    (list.length>1?`<button type="button" class="lbb lbnav lbprev" aria-label="Previous picture">‹</button><button type="button" class="lbb lbnav lbnext" aria-label="Next picture">›</button>`:"");
+  document.body.appendChild(lb); document.body.style.overflow="hidden";
+  const st=lb.querySelector(".lbstage"), im=st.querySelector("img"); LB={lb,list,k};
+  const unzoom=()=>{ lb.classList.remove("zoomed"); im.style.width=""; };
+  LB.show=()=>{ const m=list[LB.k]; lb._cur=m; unzoom(); im.src=m.src; im.alt=m.cap; const ov=lb.querySelector(".lbov"); ov.innerHTML=m.ovh||""; ov.className="lbov "+(m.st||""); lb.querySelector(".lbcap").innerHTML=`${esc(m.cap)} <small>· ${esc(m.where)}</small>`;
+    lb.querySelector(".lbn").textContent=list.length>1?(LB.k+1)+" / "+list.length:""; setStar(lb.querySelector(".lbstar"),!!PS[m.src]); };
+  LB.step=d=>{ LB.k=(LB.k+d+list.length)%list.length; LB.show(); };
+  let drag=null, moved=false;
+  const down=e=>{ if(!lb.classList.contains("zoomed")||e.button!==0) return; e.preventDefault(); drag={x:e.clientX,y:e.clientY,l:st.scrollLeft,t:st.scrollTop}; moved=false; lb.classList.add("dragging"); };
+  im.addEventListener("mousedown",down); st.addEventListener("mousedown",e=>{ if(e.target===st) down(e); });
+  LB.mm=e=>{ if(!drag) return; const dx=e.clientX-drag.x, dy=e.clientY-drag.y; if(Math.abs(dx)+Math.abs(dy)>4) moved=true; st.scrollLeft=drag.l-dx; st.scrollTop=drag.t-dy; };
+  LB.mu=()=>{ drag=null; lb.classList.remove("dragging"); };
+  window.addEventListener("mousemove",LB.mm); window.addEventListener("mouseup",LB.mu);
+  im.addEventListener("click",e=>{ e.stopPropagation(); if(moved){ moved=false; return; }
+    if(lb.classList.contains("zoomed")){ unzoom(); return; }
+    const r=im.getBoundingClientRect(), fx=(e.clientX-r.left)/r.width, fy=(e.clientY-r.top)/r.height, w=Math.max(im.naturalWidth, r.width*2.2);
+    lb.classList.add("zoomed"); im.style.width=w+"px";
+    requestAnimationFrame(()=>{ st.scrollLeft=fx*im.offsetWidth-st.clientWidth/2; st.scrollTop=fy*im.offsetHeight-st.clientHeight/2; }); });
+  st.addEventListener("click",e=>{ if((e.target===st||e.target.classList.contains("lbw"))&&!lb.classList.contains("zoomed")&&!moved) closeViewer(); });
+  lb.querySelector(".lbx").onclick=closeViewer;
+  lb.querySelector(".lbstar").onclick=()=>starPic(list[LB.k]);
+  if(list.length>1){ lb.querySelector(".lbprev").onclick=()=>LB.step(-1); lb.querySelector(".lbnext").onclick=()=>LB.step(1); }
+  LB.show(); }
+function closeViewer(){ if(!LB) return; window.removeEventListener("mousemove",LB.mm); window.removeEventListener("mouseup",LB.mu); LB.lb.remove(); LB=null; if(!document.getElementById("gal")) document.body.style.overflow=""; }
+// highlighter: each block with data-hk keeps [start,end,type,text] ranges (character offsets in the block's text); y/g/p = highlight colors, u = underline
+function tnodes(el){ const out=[], w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement&&n.parentElement.closest(".nohl")?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}); let n; while((n=w.nextNode())) out.push(n); return out; }
+function blockText(b){ return tnodes(b).map(t=>t.data).join(""); }
+function offIn(b,cont,off){ const r=document.createRange(); r.setStart(cont,off); r.collapse(true); let n=0;
+  for(const t of tnodes(b)){ if(t===cont) return n+off; if(r.comparePoint(t,t.length)<0) n+=t.length; else return n; } return n; }
+function unwrapHL(b){ b.querySelectorAll("mark.hl,span.hlu").forEach(m=>m.replaceWith(...m.childNodes)); b.normalize(); }
+function wrapRange(b,s,e,mk){ let n=0; for(const t of tnodes(b)){ const L=t.data.length, a=n, z=n+L; n=z; if(z<=s||a>=e) continue;
+  const st=Math.max(s,a)-a, en=Math.min(e,z)-a; if(en<=st) continue; let node=t; if(st>0) node=node.splitText(st); if(en-st<node.data.length) node.splitText(en-st);
+  const w=mk(); node.parentNode.insertBefore(w,node); w.appendChild(node); } }
+function applyHL(b){ if(!FEAT||!b.dataset.hk) return; unwrapHL(b); const L=HL[b.dataset.hk]; if(!L||!L.length) return; const txt=blockText(b);
+  for(const it of L){ let s=it[0], e=it[1]; if(txt.slice(s,e)!==it[3]){ const j=txt.indexOf(it[3]); if(j<0) continue; s=j; e=j+it[3].length; }
+    wrapRange(b,s,e,()=>{ const m=document.createElement(it[2]==="u"?"span":"mark"); m.className=it[2]==="u"?"hlu":("hl"+(it[2]==="g"?" hg":it[2]==="p"?" hp":"")); return m; }); } }
+function cut(L,s,e,pred){ const out=[]; for(const it of L){ if(!pred(it)||it[1]<=s||it[0]>=e){ out.push(it); continue; } if(it[0]<s) out.push([it[0],s,it[2]]); if(it[1]>e) out.push([e,it[1],it[2]]); } return out; }
+function addHL(k,s,e,ty,txt){ let L=HL[k]||[];
+  if(ty==="x") L=cut(L,s,e,()=>true);
+  else { const isU=ty==="u"; L=cut(L,s,e,it=>(it[2]==="u")===isU); let ns=s, ne=e;
+    L=L.filter(it=>{ if(it[2]===ty&&it[1]>=ns&&it[0]<=ne){ ns=Math.min(ns,it[0]); ne=Math.max(ne,it[1]); return false; } return true; }); L.push([ns,ne,ty]); }
+  L=L.filter(it=>it[1]>it[0]).sort((a,b)=>a[0]-b[0]).map(it=>[it[0],it[1],it[2],txt.slice(it[0],it[1])]);
+  if(L.length) HL[k]=L; else delete HL[k]; store.set(KEY+"-hl",HL); }
+function selBlocks(){ const sel=getSelection(); if(!sel||sel.isCollapsed||!sel.rangeCount) return []; const r=sel.getRangeAt(0), out=[];
+  document.querySelectorAll("[data-hk]").forEach(b=>{ if(!r.intersectsNode(b)||!b.getClientRects().length) return;
+    const s=b.contains(r.startContainer)?offIn(b,r.startContainer,r.startOffset):0, e=b.contains(r.endContainer)?offIn(b,r.endContainer,r.endOffset):blockText(b).length;
+    if(e>s&&blockText(b).slice(s,e).trim()) out.push([b,s,e]); }); return out; }
+function hlAct(ty){ for(const [b,s,e] of selBlocks()){ addHL(b.dataset.hk,s,e,ty,blockText(b)); applyHL(b); } const sel=getSelection(); if(sel) sel.removeAllRanges(); $("#hltools").hidden=true; }
+function hlTools(){ const T=$("#hltools"); if(!FEAT) return; const bl=selBlocks(); if(!bl.length){ T.hidden=true; return; }
+  const rr=getSelection().getRangeAt(0).getBoundingClientRect(); T.hidden=false; const w=T.offsetWidth, h=T.offsetHeight;
+  let top=rr.top-h-8; if(top<8) top=rr.bottom+8; T.style.top=top+"px"; T.style.left=Math.min(Math.max(8,rr.left+rr.width/2-w/2),innerWidth-w-8)+"px"; }
+
+// ---- build the page
+const UW=(D.meta&&D.meta.uw)||"Lecture";  // Nov 8: biochem page is organized by book chapter
+let toc=`<h3>${UW}s</h3><ol>`, body="";
+for(const l of D.lectures){
+  const gs=D.groups.filter(g=>g.l===l.id); let k=0, nc=0, inner=""; const nt=gs.reduce((a,g)=>a+g.q.filter(q=>q.t).length,0);
+  const tag=l.id.split("-")[1];
+  const box=g=>{ const cards=g.q.map(q=>card(q,tag+"·"+(++k))).join("");
+    return g.q.length>1?`<div class="grp"><div class="ghead">${g.q.length} similar questions · <span>${esc(g.label)}</span></div>${cards}</div>`:cards; };
+  const US=UNITS.map((u,i)=>[u,i]).filter(([u])=>u.l===l.id);
+  if(US.length){ let s=0, lastS=null;
+    if(US[0][0].pn&&!US[0][0].s){ // lab pages: short summary of the structures this region covers, part by part
+      const nk=US.reduce((a,[u])=>a+(u.ks||[]).length,0);
+      inner+=`<nav class="lout lsum" aria-label="Structures in this region"><span class="t">In this region · ${nk} structure${nk>1?"s":""} in ${US.length} part${US.length>1?"s":""}</span><ol>${US.map(([u])=>`<li><a href="#${l.id}-p${u.pn}"><span class="pnum">${u.pn}</span>${u.h}</a><span class="ks">${(u.ks||[]).map(esc).join(" · ")}</span></li>`).join("")}</ol></nav>`; }
+    else if(US[0][0].pn){ // lecture outline: sections and their parts, each a link
+      let o=`<nav class="lout" aria-label="${UW} outline"><span class="t">${UW} outline · ${new Set(US.map(([u])=>u.sn)).size} sections, ${US.length} parts</span><ol>`;
+      for(const [u] of US){ if(u.sn!==lastS){ if(lastS!==null) o+=`</ol></li>`; lastS=u.sn; o+=`<li><a href="#${l.id}-s${u.sn}">${u.s}</a><ol>`; }
+        o+=`<li><a href="#${l.id}-p${u.pn}"><span class="pnum">${u.pn}</span>${u.h}</a></li>`; }
+      inner+=o+`</ol></li></ol></nav>`; lastS=null; }
+    for(const [u,i] of US){ const ug=gs.filter(g=>g.u===i), n=ug.reduce((a,g)=>a+g.q.length,0), k0=k+1, pk=`${l.id}:${u.pn}`;
+      let qhtml, qs;
+      if(TIER){ // Nov 5 (anatomy): core cards in page order, then the rest in a "More questions" dropdown that opens in place
+        const flat=ug.flatMap(g=>g.q), core=flat.filter(q=>q.tier!==2), more=flat.filter(q=>q.tier===2), num={};
+        core.forEach(q=>num[q.id]=tag+"·"+(++k)); more.forEach(q=>num[q.id]=tag+"·"+(++k)); nc+=core.length;
+        const note=q=>q.kind==="repeat"&&num[q.like]?`<span class="like" title="The same structure as question ${num[q.like]}, on another picture">Same structure as ${num[q.like]}</span>`
+          :q.kind==="harder"?`<span class="like hard" title="${num[q.like]?"A harder or trickier version of question "+num[q.like]:"A harder or trickier question"}">Harder</span>`:"";
+        const cnt=(kd,w)=>{ const c=more.filter(q=>q.kind===kd).length; return c?c+" "+w+(c>1&&kd==="repeat"?"s":""):""; };
+        const kinds="the same structures on other pictures";
+        qhtml=core.map(q=>card(q,num[q.id])).join("")+(more.length?`<div class="t2${T2[pk]?" open":""}" data-pk="${esc(pk)}"><button class="t2btn nohl" type="button" aria-expanded="${!!T2[pk]}">More questions on this part <span class="t2n">${more.length} · ${kinds}</span></button><div class="t2body"${T2[pk]?"":" hidden"}>${more.map(q=>card(q,num[q.id],note(q))).join("")}</div></div>`:"");
+        qs=`${core.length} core question${core.length>1?"s":""} below (one per structure)${more.length?`, then ${more.length} more in the dropdown`:""}`; }
+      else { qhtml=ug.map(box).join(""); qs=n===1?"question "+tag+"·"+k0:"questions "+tag+"·"+k0+"–"+tag+"·"+(k0+n-1); }
+      if(u.pn){ let sh="";
+        if(u.s&&u.sn!==lastS){ lastS=u.sn; sh=`<h3 class="lsec" id="${l.id}-s${u.sn}"><span class="sn">Section ${u.sn}</span>${u.s}</h3>`; }
+        const ph=`<span class="pn">Part ${u.pn}</span><h3>${u.h}</h3>`, pb=`${u.p}<div class="pq">${TIER?qs:"Practice on this part: "+qs}</div>`;
+        inner+=`<div class="unit" id="${l.id}-p${u.pn}">${sh}`+(FOLD?`<details class="primer notes fold" data-pk="${pk}" data-hk="p:${pk}"${FD[pk]?"":" open"}><summary>${ph}</summary><div class="pbody">${pb}</div></details>`:`<div class="primer notes" data-hk="p:${pk}">${ph}${pb}</div>`)+`${qhtml}</div>`; }
+      else inner+=`<div class="unit"><div class="primer"><span class="pn">Step ${++s} of ${US.length}</span><h3>${u.h}</h3>${u.p}<div class="pq">Next: ${qs}</div></div>${qhtml}</div>`; } }
+  else for(const g of gs) inner+=box(g);
+  toc+=`<li><a href="#${l.id}"><span class="id">${tag}</span>${esc(l.t)}</a><span class="n"><span class="nall">${k}</span><span class="ntop">${nt}</span></span></li>`;
+  body+=`<section class="sec" id="${l.id}"><div class="sechead"><h2><span class="id">${esc(l.id)}</span> ${esc(l.t)}</h2><span class="n">${TIER?`${nc} core · ${k-nc} more`:`<span class="nall">${k} questions</span><span class="ntop">top ${nt} of ${k}</span>`}</span></div>${sumPanel(l)}${inner}</section>`;
+}
+$("#toc").innerHTML=toc+`</ol>`; $("#body").innerHTML=body;
+if(FEAT){ decorate($("#body")); for(const k of Object.keys(HL)){ const b=document.querySelector(`[data-hk="${CSS.escape(k)}"]`); if(b) applyHL(b); } }
+// Nov 5: a #lecture or #part link must land on its target even while pictures above it are still loading and pushing it down.
+// Re-align on every size change of the page body for a few seconds, and stop as soon as the reader scrolls, clicks or types.
+const anchorTo=id=>{ const el=id&&document.getElementById(id); if(!el) return; let on=true;
+  const go=()=>el.scrollIntoView({behavior:"instant",block:"start"});  // instant: the page uses smooth scrolling, which would lag behind
+  const ro=new ResizeObserver(()=>{ if(on) go(); }), off=()=>{ if(!on) return; on=false; ro.disconnect(); };
+  ro.observe($("#body")); go(); setTimeout(off,6000);
+  for(const ev of ["wheel","touchstart","keydown","mousedown"]) addEventListener(ev,off,{once:true,passive:true}); };
+if(location.hash) requestAnimationFrame(()=>anchorTo(decodeURIComponent(location.hash.slice(1))));
+window.addEventListener("hashchange",()=>anchorTo(decodeURIComponent(location.hash.slice(1))));
+document.querySelectorAll("article.q").forEach(el=>{ const d=done[el.dataset.id]; if(d) answer(el,byId[el.dataset.id],(d==="ok"||d==="seen")?null:d); });
+score();
+
+// ---- clicks
+document.addEventListener("click",e=>{
+  const t=e.target, el=t.closest&&t.closest("article.q");
+  const tb=TIER&&t.closest&&t.closest(".t2btn");
+  if(tb){ const w=tb.parentElement, b=w.querySelector(".t2body"), open=b.hidden; // opens/closes in place; no scrolling
+    b.hidden=!open; w.classList.toggle("open",open); tb.setAttribute("aria-expanded",open);
+    if(open) T2[w.dataset.pk]=1; else delete T2[w.dataset.pk]; store.set(KEY+"-t2",T2); return; }
+  if(t.closest(".opt")&&el&&!t.closest(".opt").disabled){ const q=byId[el.dataset.id], p=t.closest(".opt").dataset.l; done[q.id]=(q.g||[]).includes(p)?"ok":p; store.set(KEY+"-done",done); answer(el,q,p); score(); return; }
+  if(t.classList.contains("showans")&&el){ const q=byId[el.dataset.id]; done[q.id]="seen"; store.set(KEY+"-done",done); answer(el,q,null); return; }
+  if(t.classList.contains("labs")&&el){ const oc=el.querySelector(".occ"); const on=!oc.classList.contains("all"); oc.classList.toggle("all",on); t.textContent=on?"Cover other labels":"Show all labels"; return; }
+  if(t.classList.contains("again")&&el){ delete done[el.dataset.id]; store.set(KEY+"-done",done); resetCard(el); score(); return; }
+  if(t.classList.contains("star")&&el){ const id=el.dataset.id; if(stars[id]) delete stars[id]; else stars[id]=1; store.set(KEY+"-stars",stars);
+    t.setAttribute("aria-pressed",!!stars[id]); t.textContent=stars[id]?"★":"☆"; el.classList.toggle("starred",!!stars[id]); return; }
+  if(FEAT){ if(t.classList.contains("pstar")){ togglePic(t); return; } if(t.tagName==="IMG"&&t.closest(".pimg")&&!t.closest("#lb2")){ openViewer(t); return; } }
+  else if(t.tagName==="IMG"&&(t.closest(".slides")||t.closest(".sumbody")||t.closest(".primer"))){ const lb=document.createElement("div"); lb.id="lb"; const lg=t.closest("figure")&&t.closest("figure").querySelector(".lgd"); lb.innerHTML=`<img src="${t.getAttribute("src")}" alt="">`+(lg?lg.outerHTML:""); lb.onclick=()=>lb.remove(); document.body.appendChild(lb); }
+});
+document.addEventListener("keydown",e=>{
+  if(FEAT&&LB){ if(e.key==="Escape"){ closeViewer(); e.preventDefault(); } else if(e.key==="ArrowRight"){ LB.step(1); e.preventDefault(); } else if(e.key==="ArrowLeft"){ LB.step(-1); e.preventDefault(); } return; }
+  if(FEAT&&e.key==="Escape"&&document.getElementById("gal")){ closeGal(); return; }
+  if(FEAT&&!$("#hltools").hidden&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!/INPUT|TEXTAREA/.test((document.activeElement||{}).tagName||"")){ const a={h:"y",u:"u",e:"x"}[e.key.toLowerCase()]; if(a){ hlAct(a); e.preventDefault(); return; } }
+  if(e.key==="Escape"){ const lb=document.getElementById("lb"); if(lb) lb.remove(); } });
+if(FEAT){
+  const T=$("#hltools");
+  T.addEventListener("mousedown",e=>e.preventDefault());
+  T.addEventListener("click",e=>{ const b=e.target.closest("button[data-a]"); if(b) hlAct(b.dataset.a); });
+  document.addEventListener("mouseup",e=>{ if(e.target.closest&&e.target.closest("#hltools,#lb2")) return; setTimeout(hlTools,0); });
+  document.addEventListener("keyup",e=>{ if(e.shiftKey) hlTools(); });
+  document.addEventListener("selectionchange",()=>{ const sel=getSelection(); if(!sel||sel.isCollapsed) T.hidden=true; });
+  window.addEventListener("scroll",()=>{ if(!T.hidden) hlTools(); },{passive:true});
+  const ps=$("#picstars"); ps.hidden=false; psCount(); ps.onclick=renderGal;
+  const hc=$("#hlclear"); hc.hidden=false; let arm=0;
+  hc.onclick=function(){ if(!Object.keys(HL).length){ this.textContent="No highlights yet"; setTimeout(()=>this.textContent="Clear highlights",1600); return; }
+    if(!arm){ arm=1; this.textContent="Click again to remove all highlights"; setTimeout(()=>{ arm=0; this.textContent="Clear highlights"; },3500); return; }
+    arm=0; const ks=Object.keys(HL); ks.forEach(k=>delete HL[k]); store.set(KEY+"-hl",HL); document.querySelectorAll("[data-hk]").forEach(b=>{ if(b.querySelector("mark.hl,span.hlu")) unwrapHL(b); }); this.textContent="Clear highlights"; };
+  const note=document.createElement("p"); note.className="hlnote"; note.textContent="Every label starts covered; the yellow ? marks the one asked. Tip: select any text in the notes, questions or explanations to highlight or underline it (keys H, U, E). Tap ☆ on any picture to star it; “Starred pictures” shows them all. Click a picture to open it, click again to zoom in.";
+  document.querySelector(".controls").after(note);
+}
+if(FOLD){ // notes parts: remember which are closed; a drag-select inside the title bar does not fold it; an outline link opens its part
+  document.addEventListener("toggle",e=>{ const d=e.target; if(!d.classList||!d.classList.contains("fold")) return; if(d.open) delete FD[d.dataset.pk]; else FD[d.dataset.pk]=1; store.set(KEY+"-fold",FD); },true);
+  document.addEventListener("click",e=>{ const s=e.target.closest&&e.target.closest("details.fold>summary"); if(!s) return; const sel=getSelection(); if(sel&&!sel.isCollapsed&&s.contains(sel.anchorNode)) e.preventDefault(); },true);
+  const openHash=()=>{ const u=location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1))); const d=u&&u.querySelector(":scope>details.fold"); if(d&&!d.open) d.open=true; };
+  window.addEventListener("hashchange",openHash); document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest(".lout a"); if(a&&a.getAttribute("href")===location.hash) setTimeout(openHash,0); }); }
+$("#topcnt").textContent="("+D.groups.reduce((a,g)=>a+g.q.filter(q=>q.t).length,0)+")";
+const NOTES=UNITS.some(u=>u.pn), PW=NOTES?["Hide notes","Show notes"]:["Hide teaching paragraphs","Show teaching paragraphs"];
+if(UNITS.length) $("#toponly").title=`At least two questions from every ${NOTES?"part":"step"} of each lecture (more from the most-tested ${NOTES?"parts":"steps"}), the clearest version of each`;
+if(TIER) $("#toponly").hidden=true;  // Nov 5 (anatomy): no Top filter; every part shows its core questions and a "More questions" dropdown
+$("#toponly").onclick=function(){ const on=this.getAttribute("aria-pressed")!=="true"; this.setAttribute("aria-pressed",on); document.body.classList.toggle("toponly",on); try{localStorage.setItem(KEY+"-top",on?"1":"0")}catch(e){} };
+if(!TIER){ try{ if(/[?&]top\b/.test(location.search)||localStorage.getItem(KEY+"-top")==="1") $("#toponly").click(); }catch(e){ if(/[?&]top\b/.test(location.search)) $("#toponly").click(); } }
+if(UNITS.length){ const b=$("#nosum"); b.hidden=false; b.textContent=PW[0];
+  b.onclick=function(){ const on=this.getAttribute("aria-pressed")!=="true"; this.setAttribute("aria-pressed",on); this.textContent=on?PW[1]:PW[0]; document.body.classList.toggle("noprimer",on); try{localStorage.setItem(KEY+"-noprimer",on?"1":"0")}catch(e){} };
+  try{ if(localStorage.getItem(KEY+"-noprimer")==="1") b.click(); }catch(e){} }
+else if(Object.keys(SUM).length){ const b=$("#nosum"); b.hidden=false;
+  b.onclick=function(){ const on=this.getAttribute("aria-pressed")!=="true"; this.setAttribute("aria-pressed",on); this.textContent=on?"Show summaries":"Hide summaries"; document.body.classList.toggle("nosum",on); try{localStorage.setItem(KEY+"-nosum",on?"1":"0")}catch(e){} };
+  try{ if(localStorage.getItem(KEY+"-nosum")==="1") b.click(); }catch(e){} }
+$("#staronly").onclick=function(){ const on=this.getAttribute("aria-pressed")!=="true"; this.setAttribute("aria-pressed",on); document.body.classList.toggle("staronly",on); window.scrollTo(0,0); };
+$("#reset").onclick=$("#reset2").onclick=()=>{ for(const k of Object.keys(done)) delete done[k]; store.set(KEY+"-done",done); document.querySelectorAll("article.q").forEach(resetCard); score(); };
+new IntersectionObserver(([en])=>{ $("#reset2").hidden=en.isIntersecting; }).observe(document.querySelector(".controls"));
+// ---- search
+$("#q").oninput=()=>{ const s=$("#q").value.trim().toLowerCase(); document.body.classList.toggle("searching",!!s);
+  document.querySelectorAll("article.q").forEach(el=>{ const q=byId[el.dataset.id]; el.classList.toggle("done-hide",!!s&&!(q.s+" "+q.o.join(" ")+" "+q.at+" "+q._g.label+" "+(q.src[0]?q.src[0].n:"")).toLowerCase().includes(s)); });
+  document.querySelectorAll(".grp").forEach(g=>g.classList.toggle("done-hide",!g.querySelector("article.q:not(.done-hide)")));
+  document.querySelectorAll(".unit").forEach(u=>u.classList.toggle("done-hide",!u.querySelector("article.q:not(.done-hide)")));
+  document.querySelectorAll(".t2").forEach(w=>w.classList.toggle("done-hide",!!s&&!w.querySelector("article.q:not(.done-hide)")));
+  document.querySelectorAll("section.sec").forEach(sc=>sc.classList.toggle("done-hide",!sc.querySelector("article.q:not(.done-hide)"))); };
+})();
+</script>
+
+</body>
+</html>
