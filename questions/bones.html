@@ -400,8 +400,8 @@ function answer(el,q,picked){
   let h=`<div class="ans" data-hk="a:${esc(q.id)}"><span class="lab">${G.length>1&&!q.rv?"Accepted answers":"Answer"}</span>${esc(label)}</div>`;
   if(q.fl.length) h+=q.fl.map((f,i)=>`<div class="fixbox" data-hk="f:${esc(q.id)}:${i}"><span class="lab">Note</span>${esc(f)}</div>`).join("");
   if(q.why) h+=`<div class="why" data-hk="w:${esc(q.id)}"><span class="lab">Why</span>${q.why}</div>`; else if(q.ex) h+=`<div class="why" data-hk="w:${esc(q.id)}"><span class="lab">From the source</span>${esc(q.ex)}</div>`;
-  if(g.slides.length&&FEAT){ const nt=g.slides.filter(s=>s.tb).length, ns=g.slides.length-nt;
-    h+=`<details class="slides"><summary>More pictures of it <span class="sct">(${[nt?"textbook drawing":"",ns?ns+" other picture"+(ns>1?"s":""):""].filter(Boolean).join(", ")})</span></summary>${g.slides.map(figHTML).join("")}</details>`; }
+  if(g.slides.length&&FEAT){ const nx=g.slides.filter(s=>s.xs).length, nt=g.slides.filter(s=>s.tb&&!s.xs).length, ns=g.slides.length-nt-nx;
+    h+=`<details class="slides"><summary>More pictures of it <span class="sct">(${[nx?(nx>1?nx+" drawings of this section":"drawing of this section"):"",nt?"textbook drawing":"",ns?ns+" other picture"+(ns>1?"s":""):""].filter(Boolean).join(", ")})</span></summary>${g.slides.map(figHTML).join("")}</details>`; }
   else if(g.slides.length) h+=`<details class="slides"><summary>Slides (${g.slides.length})</summary>${g.slides.map(s=>`<figure><img loading="lazy" src="${s.src}" alt="${esc(s.cap)}"><figcaption>${esc(s.cap)} <small>· ${esc(s.where)}</small></figcaption>${lgHTML(s.lg)}</figure>`).join("")}</details>`;
   h+=`<details class="src"><summary>Sources (${q.src.length})</summary><ul>${q.src.map(s=>`<li>${esc(s.t)} — ${esc(s.n)}${s.sl?" (slide "+s.sl+")":""}</li>`).join("")}</ul>${q.tg.length?`<div>Taught: ${esc(q.tg.join("; "))}</div>`:""}</details>`;
   const r=el.querySelector(".reveal"); r.innerHTML=h; r.hidden=false;
