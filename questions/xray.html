@@ -401,7 +401,7 @@ function answer(el,q,picked){
   if(q.fl.length) h+=q.fl.map((f,i)=>`<div class="fixbox" data-hk="f:${esc(q.id)}:${i}"><span class="lab">Note</span>${esc(f)}</div>`).join("");
   if(q.why) h+=`<div class="why" data-hk="w:${esc(q.id)}"><span class="lab">Why</span>${q.why}</div>`; else if(q.ex) h+=`<div class="why" data-hk="w:${esc(q.id)}"><span class="lab">From the source</span>${esc(q.ex)}</div>`;
   if(g.slides.length&&FEAT){ const nx=g.slides.filter(s=>s.xs).length, nt=g.slides.filter(s=>s.tb&&!s.xs).length, ns=g.slides.length-nt-nx;
-    h+=`<details class="slides"><summary>More pictures of it <span class="sct">(${[nx?(nx>1?nx+" drawings of this section":"drawing of this section"):"",nt?"textbook drawing":"",ns?ns+" other picture"+(ns>1?"s":""):""].filter(Boolean).join(", ")})</span></summary>${g.slides.map(figHTML).join("")}</details>`; }
+    h+=`<details class="slides"><summary>More pictures of it <span class="sct">(${[nx?(nx>1?nx+" textbook sections at or near this level":"textbook section at or near this level"):"",nt?"textbook drawing":"",ns?ns+" other picture"+(ns>1?"s":""):""].filter(Boolean).join(", ")})</span></summary>${g.slides.map(figHTML).join("")}</details>`; }
   else if(g.slides.length) h+=`<details class="slides"><summary>Slides (${g.slides.length})</summary>${g.slides.map(s=>`<figure><img loading="lazy" src="${s.src}" alt="${esc(s.cap)}"><figcaption>${esc(s.cap)} <small>· ${esc(s.where)}</small></figcaption>${lgHTML(s.lg)}</figure>`).join("")}</details>`;
   h+=`<details class="src"><summary>Sources (${q.src.length})</summary><ul>${q.src.map(s=>`<li>${esc(s.t)} — ${esc(s.n)}${s.sl?" (slide "+s.sl+")":""}</li>`).join("")}</ul>${q.tg.length?`<div>Taught: ${esc(q.tg.join("; "))}</div>`:""}</details>`;
   const r=el.querySelector(".reveal"); r.innerHTML=h; r.hidden=false;
@@ -541,8 +541,8 @@ for(const l of D.lectures){
   const US=UNITS.map((u,i)=>[u,i]).filter(([u])=>u.l===l.id);
   if(US.length){ let s=0, lastS=null;
     if(PIC){ // slide pages: the structures labeled on this slide (in study order, not label order)
-      const ks=US.flatMap(([u])=>u.ks||[]);
-      inner+=`<nav class="lout lsum" aria-label="Structures on this slide"><span class="t">On this slide · ${ks.length} labeled structure${ks.length>1?"s":""}</span><span class="ks">${ks.map(esc).join(" · ")}</span></nav>`; }
+      const ks=[...new Set(US.flatMap(([u])=>u.ks||[]))], sh=(D.meta&&D.meta.sumh)||"On this slide";
+      inner+=`<nav class="lout lsum" aria-label="Structures ${sh.toLowerCase()}"><span class="t">${sh} · ${ks.length} labeled structure${ks.length>1?"s":""}</span><span class="ks">${ks.map(esc).join(" · ")}</span></nav>`; }
     else if(US[0][0].pn&&!US[0][0].s){ // lab pages: short summary of the structures this region covers, part by part
       const nk=US.reduce((a,[u])=>a+(u.ks||[]).length,0);
       inner+=`<nav class="lout lsum" aria-label="Structures in this region"><span class="t">In this region · ${nk} structure${nk>1?"s":""} in ${US.length} part${US.length>1?"s":""}</span><ol>${US.map(([u])=>`<li><a href="#${l.id}-p${u.pn}"><span class="pnum">${u.pn}</span>${u.h}</a><span class="ks">${(u.ks||[]).map(esc).join(" · ")}</span></li>`).join("")}</ol></nav>`; }
@@ -561,7 +561,7 @@ for(const l of D.lectures){
         const cnt=(kd,w)=>{ const c=more.filter(q=>q.kind===kd).length; return c?c+" "+w+(c>1&&kd==="repeat"?"s":""):""; };
         const kinds="the same structures on other pictures";
         qhtml=core.map(q=>card(q,num[q.id])).join("")+(more.length?`<div class="t2${T2[pk]?" open":""}" data-pk="${esc(pk)}"><button class="t2btn nohl" type="button" aria-expanded="${!!T2[pk]}">More questions on this part <span class="t2n">${more.length} · ${kinds}</span></button><div class="t2body"${T2[pk]?"":" hidden"}>${more.map(q=>card(q,num[q.id],note(q))).join("")}</div></div>`:"");
-        qs=PIC?`${core.length} question${core.length>1?"s":""} below, one per numbered label, in number order`:`${core.length} core question${core.length>1?"s":""} below (one per structure)${more.length?`, then ${more.length} more in the dropdown`:""}`; }
+        qs=PIC?`${core.length} question${core.length>1?"s":""} below, ${(D.meta&&D.meta.qord)||"one per numbered label, in number order"}`:`${core.length} core question${core.length>1?"s":""} below (one per structure)${more.length?`, then ${more.length} more in the dropdown`:""}`; }
       else { qhtml=ug.map(box).join(""); qs=n===1?"question "+tag+"·"+k0:"questions "+tag+"·"+k0+"–"+tag+"·"+(k0+n-1); }
       if(u.pn){ let sh="";
         if(u.s&&u.sn!==lastS){ lastS=u.sn; sh=`<h3 class="lsec" id="${l.id}-s${u.sn}"><span class="sn">Section ${u.sn}</span>${u.s}</h3>`; }
