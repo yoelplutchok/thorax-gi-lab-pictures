@@ -342,7 +342,7 @@ span.hlu{text-decoration:underline;text-decoration-color:var(--red);text-decorat
   <div class="eyebrow">Thorax & GI lab · identification</div>
   <h1>Cross-sections identification questions</h1>
   <nav class="ttabs" aria-label="Picture types"><a href="cadaver.html">Cadaver<span>167</span></a><a href="plastination.html">Plastination<span>217</span></a><a href="visible-body.html">Visible Body<span>234</span></a><a href="xray.html">X-ray &amp; CT<span>314</span></a><a href="cross-sections.html" aria-current="page">Cross-sections<span>722</span></a><a href="bones.html">Bones<span>24</span></a></nav>
-  <p class="lede" id="lede">Every labeled structure on the 106 NetAnatomy cross-sections from the thorax and GI lab, as a “what is this?” question. All labels are covered and the yellow ? marks the one asked; pick its name from five look-alike choices. Each region opens with a short summary of the structures it covers. Each part has short notes, then its core questions (one per structure), then a “More questions” dropdown with the same structures on other pictures. After you answer: where it lies, how to find it, why each other choice is wrong, and more pictures of it.</p>
+  <p class="lede" id="lede">Every labeled structure on the 106 NetAnatomy cross-sections from the thorax and GI lab, as a “what is this?” question. All labels are covered and the yellow ? marks the one asked; pick its name from five look-alike choices. Each region opens with a short summary of the structures it covers. Each part has short notes, then its core questions (one per structure), then a “More questions” dropdown with the same structures on other pictures. After you answer: where it lies, what it comes from or drains into, what it is deep and superficial to, and more pictures of it.</p>
   <div class="tally" id="tally"></div>
   <div class="controls">
     <button class="btn" id="toponly" type="button" aria-pressed="false" title="One question from each group of similar questions (the clearest, newest version), at most 50 per lecture; groups asked most often across years come first">Top questions only <span class="cnt" id="topcnt"></span></button>
@@ -376,7 +376,7 @@ const lt=o=>String(o).trim().replace(/^\(/,"").charAt(0).toUpperCase();
 const byId={}; D.groups.forEach(g=>g.q.forEach(q=>{byId[q.id]=q;q._g=g}));
 const nq=D.groups.reduce((a,g)=>a+g.q.length,0), ng=D.groups.filter(g=>g.q.length>1).length;
 const nsrc=new Set(D.groups.flatMap(g=>g.q.flatMap(q=>q.src.map(s=>s.f||s.t+"|"+s.n)))).size;
-$("#tally").innerHTML=`<span><b>${nq}</b> questions</span>${D.meta&&D.meta.uw?`<span><b>${D.groups.reduce((a,g)=>a+g.q.filter(q=>q.tier===1).length,0)}</b> core · <b>${D.groups.reduce((a,g)=>a+g.q.filter(q=>q.tier===2).length,0)}</b> more</span>`:`<span><b>${ng}</b> groups of similar questions</span>`}<span><b>${D.meta.npic}</b> pictures</span><span class="score" id="score"></span>`;
+$("#tally").innerHTML=`<span><b>${nq}</b> questions</span>${D.meta&&D.meta.pic?"":D.meta&&D.meta.uw?`<span><b>${D.groups.reduce((a,g)=>a+g.q.filter(q=>q.tier===1).length,0)}</b> core · <b>${D.groups.reduce((a,g)=>a+g.q.filter(q=>q.tier===2).length,0)}</b> more</span>`:`<span><b>${ng}</b> groups of similar questions</span>`}<span><b>${D.meta.npic}</b> pictures</span><span class="score" id="score"></span>`;
 $("#lede").textContent=D.meta.lede;
 
 const pct=x=>(x*100).toFixed(2)+"%", boxCSS=b=>`left:${pct(b[0])};top:${pct(b[1])};width:${pct(b[2]-b[0])};height:${pct(b[3]-b[1])}`;
@@ -531,7 +531,7 @@ function hlTools(){ const T=$("#hltools"); if(!FEAT) return; const bl=selBlocks(
   let top=rr.top-h-8; if(top<8) top=rr.bottom+8; T.style.top=top+"px"; T.style.left=Math.min(Math.max(8,rr.left+rr.width/2-w/2),innerWidth-w-8)+"px"; }
 
 // ---- build the page
-const UW=(D.meta&&D.meta.uw)||"Lecture";  // Nov 8: biochem page is organized by book chapter
+const UW=(D.meta&&D.meta.uw)||"Lecture", PIC=!!(D.meta&&D.meta.pic);  // Nov 8: biochem page is organized by book chapter
 let toc=`<h3>${UW}s</h3><ol>`, body="";
 for(const l of D.lectures){
   const gs=D.groups.filter(g=>g.l===l.id); let k=0, nc=0, inner=""; const nt=gs.reduce((a,g)=>a+g.q.filter(q=>q.t).length,0);
@@ -540,7 +540,10 @@ for(const l of D.lectures){
     return g.q.length>1?`<div class="grp"><div class="ghead">${g.q.length} similar questions · <span>${esc(g.label)}</span></div>${cards}</div>`:cards; };
   const US=UNITS.map((u,i)=>[u,i]).filter(([u])=>u.l===l.id);
   if(US.length){ let s=0, lastS=null;
-    if(US[0][0].pn&&!US[0][0].s){ // lab pages: short summary of the structures this region covers, part by part
+    if(PIC){ // slide pages: the structures labeled on this slide (in study order, not label order)
+      const ks=US.flatMap(([u])=>u.ks||[]);
+      inner+=`<nav class="lout lsum" aria-label="Structures on this slide"><span class="t">On this slide · ${ks.length} labeled structure${ks.length>1?"s":""}</span><span class="ks">${ks.map(esc).join(" · ")}</span></nav>`; }
+    else if(US[0][0].pn&&!US[0][0].s){ // lab pages: short summary of the structures this region covers, part by part
       const nk=US.reduce((a,[u])=>a+(u.ks||[]).length,0);
       inner+=`<nav class="lout lsum" aria-label="Structures in this region"><span class="t">In this region · ${nk} structure${nk>1?"s":""} in ${US.length} part${US.length>1?"s":""}</span><ol>${US.map(([u])=>`<li><a href="#${l.id}-p${u.pn}"><span class="pnum">${u.pn}</span>${u.h}</a><span class="ks">${(u.ks||[]).map(esc).join(" · ")}</span></li>`).join("")}</ol></nav>`; }
     else if(US[0][0].pn){ // lecture outline: sections and their parts, each a link
@@ -558,16 +561,16 @@ for(const l of D.lectures){
         const cnt=(kd,w)=>{ const c=more.filter(q=>q.kind===kd).length; return c?c+" "+w+(c>1&&kd==="repeat"?"s":""):""; };
         const kinds="the same structures on other pictures";
         qhtml=core.map(q=>card(q,num[q.id])).join("")+(more.length?`<div class="t2${T2[pk]?" open":""}" data-pk="${esc(pk)}"><button class="t2btn nohl" type="button" aria-expanded="${!!T2[pk]}">More questions on this part <span class="t2n">${more.length} · ${kinds}</span></button><div class="t2body"${T2[pk]?"":" hidden"}>${more.map(q=>card(q,num[q.id],note(q))).join("")}</div></div>`:"");
-        qs=`${core.length} core question${core.length>1?"s":""} below (one per structure)${more.length?`, then ${more.length} more in the dropdown`:""}`; }
+        qs=PIC?`${core.length} question${core.length>1?"s":""} below, one per numbered label, in number order`:`${core.length} core question${core.length>1?"s":""} below (one per structure)${more.length?`, then ${more.length} more in the dropdown`:""}`; }
       else { qhtml=ug.map(box).join(""); qs=n===1?"question "+tag+"·"+k0:"questions "+tag+"·"+k0+"–"+tag+"·"+(k0+n-1); }
       if(u.pn){ let sh="";
         if(u.s&&u.sn!==lastS){ lastS=u.sn; sh=`<h3 class="lsec" id="${l.id}-s${u.sn}"><span class="sn">Section ${u.sn}</span>${u.s}</h3>`; }
-        const ph=`<span class="pn">Part ${u.pn}</span><h3>${u.h}</h3>`, pb=`${u.p}<div class="pq">${TIER?qs:"Practice on this part: "+qs}</div>`;
-        inner+=`<div class="unit" id="${l.id}-p${u.pn}">${sh}`+(FOLD?`<details class="primer notes fold" data-pk="${pk}" data-hk="p:${pk}"${FD[pk]?"":" open"}><summary>${ph}</summary><div class="pbody">${pb}</div></details>`:`<div class="primer notes" data-hk="p:${pk}">${ph}${pb}</div>`)+`${qhtml}</div>`; }
+        const ph=`<span class="pn">${u.ph||"Part "+u.pn}</span><h3>${u.h}</h3>`, pb=`${u.p}<div class="pq">${TIER?qs:"Practice on this part: "+qs}</div>`;
+        inner+=`<div class="unit" id="${l.id}-p${u.pn}">${sh}`+(FOLD?`<details class="primer notes fold" data-pk="${pk}" data-hk="p:${pk}"${(PIC?FD[pk]===0:!FD[pk])?" open":""}><summary>${ph}</summary><div class="pbody">${pb}</div></details>`:`<div class="primer notes" data-hk="p:${pk}">${ph}${pb}</div>`)+`${qhtml}</div>`; }
       else inner+=`<div class="unit"><div class="primer"><span class="pn">Step ${++s} of ${US.length}</span><h3>${u.h}</h3>${u.p}<div class="pq">Next: ${qs}</div></div>${qhtml}</div>`; } }
   else for(const g of gs) inner+=box(g);
   toc+=`<li><a href="#${l.id}"><span class="id">${tag}</span>${esc(l.t)}</a><span class="n"><span class="nall">${k}</span><span class="ntop">${nt}</span></span></li>`;
-  body+=`<section class="sec" id="${l.id}"><div class="sechead"><h2><span class="id">${esc(l.id)}</span> ${esc(l.t)}</h2><span class="n">${TIER?`${nc} core · ${k-nc} more`:`<span class="nall">${k} questions</span><span class="ntop">top ${nt} of ${k}</span>`}</span></div>${sumPanel(l)}${inner}</section>`;
+  body+=`<section class="sec" id="${l.id}"><div class="sechead"><h2><span class="id">${esc(l.id)}</span> ${esc(l.t)}</h2><span class="n">${PIC?`${k} question${k>1?"s":""}`:TIER?`${nc} core · ${k-nc} more`:`<span class="nall">${k} questions</span><span class="ntop">top ${nt} of ${k}</span>`}</span></div>${sumPanel(l)}${inner}</section>`;
 }
 $("#toc").innerHTML=toc+`</ol>`; $("#body").innerHTML=body;
 if(FEAT){ decorate($("#body")); for(const k of Object.keys(HL)){ const b=document.querySelector(`[data-hk="${CSS.escape(k)}"]`); if(b) applyHL(b); } }
@@ -621,7 +624,7 @@ if(FEAT){
   document.querySelector(".controls").after(note);
 }
 if(FOLD){ // notes parts: remember which are closed; a drag-select inside the title bar does not fold it; an outline link opens its part
-  document.addEventListener("toggle",e=>{ const d=e.target; if(!d.classList||!d.classList.contains("fold")) return; if(d.open) delete FD[d.dataset.pk]; else FD[d.dataset.pk]=1; store.set(KEY+"-fold",FD); },true);
+  document.addEventListener("toggle",e=>{ const d=e.target; if(!d.classList||!d.classList.contains("fold")) return; if(PIC){ if(d.open) FD[d.dataset.pk]=0; else delete FD[d.dataset.pk]; } else if(d.open) delete FD[d.dataset.pk]; else FD[d.dataset.pk]=1; store.set(KEY+"-fold",FD); },true);
   document.addEventListener("click",e=>{ const s=e.target.closest&&e.target.closest("details.fold>summary"); if(!s) return; const sel=getSelection(); if(sel&&!sel.isCollapsed&&s.contains(sel.anchorNode)) e.preventDefault(); },true);
   const openHash=()=>{ const u=location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1))); const d=u&&u.querySelector(":scope>details.fold"); if(d&&!d.open) d.open=true; };
   window.addEventListener("hashchange",openHash); document.addEventListener("click",e=>{ const a=e.target.closest&&e.target.closest(".lout a"); if(a&&a.getAttribute("href")===location.hash) setTimeout(openHash,0); }); }
